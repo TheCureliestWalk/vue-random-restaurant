@@ -1,5 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.node.json",
+  "experimentalDisableTemplateSupport": true,
   "include": ["vite.config.*", "vitest.config.*", "cypress.config.*", "playwright.config.*"],
   "compilerOptions": {
     "composite": true,

@@ -15,6 +15,6 @@
         </aside>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ArrowPathIcon, HomeIcon } from '@heroicons/vue/24/outline'
 </script>
