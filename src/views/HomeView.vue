@@ -120,9 +120,7 @@
 </template>
 
 <script setup lang="ts">
-import Chips from 'primevue/chips';
 import Button from 'primevue/button';
-import Editor from 'primevue/editor';
 import { ListBulletIcon, EyeIcon, BookmarkIcon, HeartIcon, ClockIcon, MapPinIcon, TagIcon, MapIcon, ArrowPathIcon, XMarkIcon, CheckIcon, CursorArrowRaysIcon } from '@heroicons/vue/24/outline'
 import {ref} from 'vue';
 import Modal from '@/components/Modal.vue'
@@ -156,7 +154,6 @@ const reRandom = () => {
 
 const isHidden = ref(true);
 
-const text = ref('');
 const data = ref([
   {
     "name": "คินโนบูตะ",
