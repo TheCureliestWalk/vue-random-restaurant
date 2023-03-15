@@ -1,4 +1,48 @@
 <template>
+       <!-- Modal -->
+       <TransitionRoot :show="isOpen" as="template" enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100" leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0">
+    <Dialog :open="isOpen" @close="setIsOpen">
+      <div class="fixed inset-0 bg-black/30 backdrop-blur" aria-hidden="true" />
+      <div class="fixed inset-0 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4 shadow-2xl">
+          <DialogPanel class="w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl rounded bg-white shadow-2xl">
+            <DialogTitle class="flex flex-col justify-end text-white font-bold leading-6 w-full bg-gradient-to-r from-cyan-500 to-blue-500">
+              <img class="object-cover object-center h-64" :src="modalData.url_picture" :alt="modalData.name" />
+            </DialogTitle>
+            <DialogDescription class="space-y-3">
+              
+              <p>{{ modalData.description ?? "ไม่ได้ระบุ" }}</p>
+              <div class="items-center flex flex-col gap-2">
+                <h1 class="px-4 pt-4 text-2xl">{{ modalData.name ?? "ไม่ได้ระบุ" }}</h1>
+                <ul class="flex gap-4">
+                <li class="cursor-pointer flex gap-1 bg-green-100 hover:bg-green-200 rounded-full px-2 py-1 text-sm font-semibold text-green-700">
+                  <ClockIcon class="w-4 h-4"/>
+                  {{ modalData.operate_time ?? "ไม่ได้ระบุ" }}</li>
+                <li class="cursor-pointer flex gap-1 rounded-full bg-pink-100 hover:bg-pink-300 text-pink-700 px-2 py-1 text-sm font-semibold">
+                  <TagIcon class="w-4 h-4"/>
+                  {{ modalData.type ?? "ไม่ได้ระบุ" }}</li>
+                  <li class="cursor-pointer flex gap-1 rounded-full bg-sky-100 hover:bg-sky-300 text-sky-700 px-2 py-1 text-sm font-semibold">
+                  <TagIcon class="w-4 h-4"/>
+                  {{ modalData.location ?? "ไม่ได้ระบุ" }}</li>
+              </ul>
+              </div>
+            </DialogDescription>
+            <div class="flex flex-row-reverse gap-2 px-4 pb-4 pt-10">
+              <button @click="reRandom" class="py-2 px-4 rounded bg-amber-200 hover:bg-amber-300 text-amber-700"><ArrowPathIcon class="w-4 h-4"/></button>
+              <a :href="modalData.map_location" class="flex gap-1 items-center py-2 px-4 rounded bg-purple-200 hover:bg-purple-300 text-purple-700"> 
+                <MapIcon class="w-4 h-4"/>
+              </a>
+              <button @click="setIsOpen(false)" class="py-2 px-4 rounded bg-red-200 hover:bg-red-300 text-red-700"><XMarkIcon class="w-4 h-4"/></button>
+            </div>
+          </DialogPanel>
+        </div>
+      </div>
+    </Dialog>
+  </TransitionRoot>
+
+  <!-- End of Modal -->
+
+  <button class="mx-auto p-2 my-4 bg-amber-300 text-amber-700 hover:bg-amber-500 hover:text-white" @click="random">สุ่มร้านอาหาร</button>
         <div class="columns-1 sm:columns-2 md:columns-3 gap-8 space-y-6">
           <div v-for="x in data" :key="x.id" class="max-w-sm rounded overflow-hidden shadow-lg cursor-pointer hover:-translate-y-4 hover:scale-110 duration-100">
             <img class="w-full object-cover h-48" :src="x.url_picture" :alt="x.name" @click="fireModal(x)" />
@@ -38,8 +82,36 @@
 import Chips from 'primevue/chips';
 import Button from 'primevue/button';
 import Editor from 'primevue/editor';
-import { EyeIcon, BookmarkIcon, HeartIcon, ClockIcon, MapPinIcon } from '@heroicons/vue/24/outline'
+import { EyeIcon, BookmarkIcon, HeartIcon, ClockIcon, MapPinIcon, TagIcon, MapIcon, ArrowPathIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import {ref} from 'vue';
+import Modal from '@/components/Modal.vue'
+
+const isChecked = ref(true); // Checkbox Search Button
+const isOpen = ref(false);
+function setIsOpen(value) {
+  isOpen.value = value;
+}
+
+const modalData = ref([])
+const random = () => {
+  const result = Math.floor(Math.random() * data.value.length)
+  setIsOpen(true);
+  modalData.value.name = data.value[result].name;
+  modalData.value.description = data.value[result].description;
+  modalData.value.type = data.value[result].type;
+  modalData.value.location = data.value[result].location;
+  modalData.value.map_location = data.value[result].map_location;
+  modalData.value.operate_time = data.value[result].operate_time;
+  modalData.value.url_picture = data.value[result].url_picture;
+  console.log(modalData);
+  
+  return modalData;
+}
+
+const reRandom = () => {
+  setIsOpen(false);
+  random();
+}
 
 const text = ref('');
 const data = ref([
