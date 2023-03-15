@@ -10,8 +10,7 @@ import Modal from './components/Modal.vue'
         <RouterLink to="/about">About</RouterLink>
   </nav> -->
   <div class="flex flex-row">
-    <NavBar />
-    <div class="p-8">
+    <div class="p-8 flex flex-col mx-auto">
       <RouterView />
     </div>
     
