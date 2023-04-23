@@ -63,11 +63,11 @@
     <div class="right md:ml-8">
       <div class="p-8 w-full h-full bg-gradient-to-l from-white/30 rounded text-white shadow-sm">
           <h3 class="font-baseline">เว็บไซต์นี้เป็นส่วนหนึ่งในรายวิชา GE362785 การคิดเชิงสร้างสรรค์และการแก้ปัญหา</h3>
-          <button @click="isHidden = !isHidden" class="flex gap-2 items-center cursor-pointer mt-4 text-sm p-2 rounded border-2 shadow-sm hover:bg-sky-200">
+          <button @click="toggleCredit" class="flex gap-2 items-center cursor-pointer mt-4 text-sm p-2 rounded border-2 shadow-sm hover:bg-sky-200">
             <ListBulletIcon class="w-4 h-4"/>
             <span>ดูรายชื่อกลุ่ม</span>
           </button>
-          <ul id="groupList" class="md:block mt-4" :class="{ 'hidden': isHidden }">
+          <ul id="groupList" class="md:block mt-4" v-if="isHidden">
             <li>นายไกรวิทย์ คำย้าว 623040002-0</li>
             <li>นายฉันท์วินัย นิลจันทร์ 623040005-4</li>
             <li>นางสาวญาณิศา ศรีทอง 623040008-8</li>
@@ -122,9 +122,14 @@
 <script setup lang="ts">
 import Button from 'primevue/button';
 import { ListBulletIcon, EyeIcon, BookmarkIcon, HeartIcon, ClockIcon, MapPinIcon, TagIcon, MapIcon, ArrowPathIcon, XMarkIcon, CheckIcon, CursorArrowRaysIcon } from '@heroicons/vue/24/outline'
+import type { Food } from '@/types/food';
 import {ref} from 'vue';
 import Modal from '@/components/Modal.vue'
 
+const isHidden = ref(true);
+const toggleCredit = () => {
+  isHidden.value = !isHidden.value;
+}
 const isChecked = ref(true); // Checkbox Search Button
 const isOpen = ref(false);
 function setIsOpen(value) {
@@ -151,8 +156,6 @@ const reRandom = () => {
   setIsOpen(false);
   random();
 }
-
-const isHidden = ref(true);
 
 const data = ref([
   {
